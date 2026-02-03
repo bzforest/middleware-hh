@@ -1,7 +1,7 @@
 
 
 const assignmentValidation = (req, res, next) => {
-  const { title, content, category, requirements, created_at, updated_at } =
+  const { title, content, category, requirements, email, created_at, updated_at } =
     req.body;
 
   if (
@@ -30,7 +30,7 @@ const assignmentValidation = (req, res, next) => {
     });
   }
 
-  if (typeof category !== "string" || category.length > 100) {
+  if (typeof category !== "string" || category.length > 100 || category !== "Math","English", "Biology") {
     return res.status(400).json({
       message: "Category must be a string and not exceed 100 characters",
     });
@@ -39,6 +39,13 @@ const assignmentValidation = (req, res, next) => {
   if (typeof requirements !== "string" || requirements.length > 100) {
     return res.status(400).json({
       message: "Requirements must be a string and not exceed 100 characters",
+    });
+  } 
+ 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (typeof email !== "string" || email.length > 100 || !emailRegex.test(email)) {
+    return res.status(400).json({
+      message: "Email must be a string and not exceed 100 characters and must be a valid email address",
     });
   }
 
